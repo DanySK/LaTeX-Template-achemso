@@ -14,6 +14,7 @@ addons:
     - python-pygments
     # LaTeX
     - texlive-base
+    - texlive-science
     - texlive-latex-extra
     - texlive-latex-recommended
     - texlive-fonts-recommended
