@@ -2,3 +2,8 @@
 *.zip
 
 build/*
+*.aux
+*.bbl
+*.log
+*.blg
+*.synctex.gz

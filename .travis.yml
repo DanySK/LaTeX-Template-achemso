@@ -1,0 +1,66 @@
+official-repo: &official-repo
+  DanySK/LaTeX-Template-achemso
+dist: bionic
+language: bash
+git:
+  depth: false
+addons:
+  apt:
+    update: true
+    packages:
+    # LaTeX decent font processor
+    - cm-super
+    # For Minted
+    - python-pygments
+    # LaTeX
+    - texlive-base
+    - texlive-latex-extra
+    - texlive-latex-recommended
+    - texlive-fonts-recommended
+    # Debug
+    - tree
+env:
+  global:
+    - TERM="dumb"
+    - GRAVIS="https://raw.githubusercontent.com/DanySK/Gravis-CI/master/"
+install:
+  - curl -s "https://get.sdkman.io" | bash
+  - echo sdkman_auto_answer=true > ~/.sdkman/etc/config
+  - source "$HOME/.sdkman/bin/sdkman-init.sh"
+  - sdk install kotlin
+  - sdk install kscript
+script:
+  - ./build.kts
+after_failure:
+  - tree -a
+  - cat 0*/texput.log
+before_deploy:
+  - git config --local user.name "Danilo Pianini"
+  - git config --local user.email "danilo.pianini@unibo.it"
+  - if [[ $(git describe) == *"-"* ]]; then git tag $(git describe) || :; fi
+before_cache:
+  - curl "${GRAVIS}.clean_gradle_cache.sh" --output .clean_gradle_cache.sh
+  - bash .clean_gradle_cache.sh
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+deploy:
+  - provider: releases
+    api_key:
+      secure: jp7+5mDxgDYAjlnqCoq0JGHVrHDVAXUyggM8G5WhLCQvkOICPMXQq6EtFyh+Q1Y2+OlNqahyqgEV78a7T+ClrAb8V+g7U6g2jTd1Axw8jGbaz5X33Tpp7tUKkvBXCq6m7hrWrjHLVIDWn+U45N5QvrSjqJnLomM7S+WYOOf/qbH25p2eygxLce44XJUNHNGkOodov2zCXy1uqCXamjhuageVWaOByYH61tcMPWurZYW7pOQpvifPJb5VhV3xXhc0pSvZtAOaEGsB0IKcsQhpK4RuugqLymNgzZMFITslsFTTtiOom8AVDaYAXIat9rGlIUXiE8l5xmThte38YMxDgvRxJXBPHHokTBMRjJF9KFyL1hsJ1sy5N1ALyrWfhq/AKL6VY9tctZ0s6HKwbTsceaIV3xsYI1YZynOkiIyeFXT+dPZ5iwz9mhGVItSyzCY+alPmjzHN9mCSa+KpIN9yRI+mirPrp34RqjS69pohwE9GX+PdRkX6+lK1FN6beV2EBTzuxaC0SSmkTDdOzx/vGoL7HHOWWF245qxtK19lP68V2oaOP4KT5DWpkUUjobd57DhRqItxyTa8DkV6DW5yPVKnbB9HqYZOvyr3zC2oR891LxayF9ibIxV+rXnGWWZs4ohTqJqKcHwcFvcBM2Tl1DLlFeERnwa83rb6++72KKE=
+    file_glob: true
+    file: "*.pdf"
+    skip_cleanup: true
+    on:
+      repo: *official-repo
+      tags: true
+  - provider: releases
+    api_key:
+      secure: jp7+5mDxgDYAjlnqCoq0JGHVrHDVAXUyggM8G5WhLCQvkOICPMXQq6EtFyh+Q1Y2+OlNqahyqgEV78a7T+ClrAb8V+g7U6g2jTd1Axw8jGbaz5X33Tpp7tUKkvBXCq6m7hrWrjHLVIDWn+U45N5QvrSjqJnLomM7S+WYOOf/qbH25p2eygxLce44XJUNHNGkOodov2zCXy1uqCXamjhuageVWaOByYH61tcMPWurZYW7pOQpvifPJb5VhV3xXhc0pSvZtAOaEGsB0IKcsQhpK4RuugqLymNgzZMFITslsFTTtiOom8AVDaYAXIat9rGlIUXiE8l5xmThte38YMxDgvRxJXBPHHokTBMRjJF9KFyL1hsJ1sy5N1ALyrWfhq/AKL6VY9tctZ0s6HKwbTsceaIV3xsYI1YZynOkiIyeFXT+dPZ5iwz9mhGVItSyzCY+alPmjzHN9mCSa+KpIN9yRI+mirPrp34RqjS69pohwE9GX+PdRkX6+lK1FN6beV2EBTzuxaC0SSmkTDdOzx/vGoL7HHOWWF245qxtK19lP68V2oaOP4KT5DWpkUUjobd57DhRqItxyTa8DkV6DW5yPVKnbB9HqYZOvyr3zC2oR891LxayF9ibIxV+rXnGWWZs4ohTqJqKcHwcFvcBM2Tl1DLlFeERnwa83rb6++72KKE=
+    file_glob: true
+    file: "*.pdf"
+    skip_cleanup: true
+    on:
+      repo: *official-repo
+      tags: false
