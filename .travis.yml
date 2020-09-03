@@ -49,22 +49,18 @@ cache:
   directories:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
+    
+_deploy_base: &deploy_base
+  provider: releases
+  edge: true
+  file: "*.pdf"
+  on:
+    repo: *official-repo
+    tags: true
+
 deploy:
-  - provider: releases
-    api_key:
-      secure: jp7+5mDxgDYAjlnqCoq0JGHVrHDVAXUyggM8G5WhLCQvkOICPMXQq6EtFyh+Q1Y2+OlNqahyqgEV78a7T+ClrAb8V+g7U6g2jTd1Axw8jGbaz5X33Tpp7tUKkvBXCq6m7hrWrjHLVIDWn+U45N5QvrSjqJnLomM7S+WYOOf/qbH25p2eygxLce44XJUNHNGkOodov2zCXy1uqCXamjhuageVWaOByYH61tcMPWurZYW7pOQpvifPJb5VhV3xXhc0pSvZtAOaEGsB0IKcsQhpK4RuugqLymNgzZMFITslsFTTtiOom8AVDaYAXIat9rGlIUXiE8l5xmThte38YMxDgvRxJXBPHHokTBMRjJF9KFyL1hsJ1sy5N1ALyrWfhq/AKL6VY9tctZ0s6HKwbTsceaIV3xsYI1YZynOkiIyeFXT+dPZ5iwz9mhGVItSyzCY+alPmjzHN9mCSa+KpIN9yRI+mirPrp34RqjS69pohwE9GX+PdRkX6+lK1FN6beV2EBTzuxaC0SSmkTDdOzx/vGoL7HHOWWF245qxtK19lP68V2oaOP4KT5DWpkUUjobd57DhRqItxyTa8DkV6DW5yPVKnbB9HqYZOvyr3zC2oR891LxayF9ibIxV+rXnGWWZs4ohTqJqKcHwcFvcBM2Tl1DLlFeERnwa83rb6++72KKE=
-    file_glob: true
-    file: "*.pdf"
-    skip_cleanup: true
-    on:
-      repo: *official-repo
-      tags: true
-  - provider: releases
-    api_key:
-      secure: jp7+5mDxgDYAjlnqCoq0JGHVrHDVAXUyggM8G5WhLCQvkOICPMXQq6EtFyh+Q1Y2+OlNqahyqgEV78a7T+ClrAb8V+g7U6g2jTd1Axw8jGbaz5X33Tpp7tUKkvBXCq6m7hrWrjHLVIDWn+U45N5QvrSjqJnLomM7S+WYOOf/qbH25p2eygxLce44XJUNHNGkOodov2zCXy1uqCXamjhuageVWaOByYH61tcMPWurZYW7pOQpvifPJb5VhV3xXhc0pSvZtAOaEGsB0IKcsQhpK4RuugqLymNgzZMFITslsFTTtiOom8AVDaYAXIat9rGlIUXiE8l5xmThte38YMxDgvRxJXBPHHokTBMRjJF9KFyL1hsJ1sy5N1ALyrWfhq/AKL6VY9tctZ0s6HKwbTsceaIV3xsYI1YZynOkiIyeFXT+dPZ5iwz9mhGVItSyzCY+alPmjzHN9mCSa+KpIN9yRI+mirPrp34RqjS69pohwE9GX+PdRkX6+lK1FN6beV2EBTzuxaC0SSmkTDdOzx/vGoL7HHOWWF245qxtK19lP68V2oaOP4KT5DWpkUUjobd57DhRqItxyTa8DkV6DW5yPVKnbB9HqYZOvyr3zC2oR891LxayF9ibIxV+rXnGWWZs4ohTqJqKcHwcFvcBM2Tl1DLlFeERnwa83rb6++72KKE=
-    file_glob: true
-    file: "*.pdf"
-    skip_cleanup: true
+  - <<: *deploy_base
+  - <<: *deploy_base
     on:
       repo: *official-repo
       tags: false
