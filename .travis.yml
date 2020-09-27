@@ -3,7 +3,7 @@ if: repo != head_repo
 
 official-repo: &official-repo
   DanySK/LaTeX-Template-achemso
-dist: bionic
+dist: focal
 language: bash
 git:
   depth: false
